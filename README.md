@@ -59,3 +59,21 @@ Zip the folder `zip -r L56.zip L56` and upload the archive on AlterVista to see 
 ```
 
 https://laravista.altervista.org/L56/storage/logs/laravel.log
+
+## PHP configuration (disable_functions = putenv)
+
+Install vim into Dockerfile and disable **putenv** into `config/php.ini`
+
+```
+; This directive allows you to disable certain functions for security reasons.
+; It receives a comma-delimited list of function names.
+; http://php.net/disable-functions
+disable_functions = putenv
+```
+
+Try http://127.0.0.1/L56/public/ and you see the same production error:
+
+```
+root@1bdf541e7f6a:/var/www/html/L56/storage/logs# cat laravel.log 
+[2019-12-17 22:59:58] production.ERROR: No application encryption key has been specified. {"exception":"[object] (RuntimeException(code: 0): No application encryption key has been specified. at /var/www/html/L56/vendor/laravel/framework/src/Illuminate/Encryption/EncryptionServiceProvider.php:42)
+```
