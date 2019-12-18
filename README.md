@@ -77,3 +77,25 @@ Try http://127.0.0.1/L56/public/ and you see the same production error:
 root@1bdf541e7f6a:/var/www/html/L56/storage/logs# cat laravel.log 
 [2019-12-17 22:59:58] production.ERROR: No application encryption key has been specified. {"exception":"[object] (RuntimeException(code: 0): No application encryption key has been specified. at /var/www/html/L56/vendor/laravel/framework/src/Illuminate/Encryption/EncryptionServiceProvider.php:42)
 ```
+
+## Fix env() function
+
+This is the [suggested way](http://forum.en.altervista.org/cms/4844-laravel-altervista-wordpress.html#post14204) to fix
+the [env()](https://laravel.com/docs/5.6/helpers#method-env) function:
+
+```
+function env($key, $default = null)
+{
+    $value = getenv($key);
+
+    # Fix env() function on AlterVista
+    if ($value === false && isset($_SERVER[$key])) {
+        $value = $_SERVER[$key];
+    }
+
+    if ($value === false) {
+        return value($default);
+    }
+```
+
+We have to use a new file `app/helpers.php` to create this custom function.

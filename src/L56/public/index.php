@@ -9,6 +9,8 @@
 
 define('LARAVEL_START', microtime(true));
 
+require __DIR__.'/../app/helpers.php';
+
 /*
 |--------------------------------------------------------------------------
 | Register The Auto Loader
