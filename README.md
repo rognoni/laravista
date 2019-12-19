@@ -50,15 +50,13 @@ build, run it and go into to create a new `L56` project:
 composer create-project --prefer-dist laravel/laravel L56 "5.6.*"```
 ```
 
-check the correct Laravel page http://127.0.0.1/L56/public/
+check the correct Laravel page http://127.0.0.1/L56/
 
-Zip the folder `zip -r L56.zip L56` and upload the archive on AlterVista to see this error:
+Zip the folder `zip -r L56.zip L56` and upload the archive on AlterVista to see this error in `storage/logs/laravel.log`
 
 ```
 [2019-12-17 22:15:05] production.ERROR: No application encryption key has been specified. {"exception":"[object] (RuntimeException(code: 0): No application encryption key has been specified. at /membri/laravista/L56/vendor/laravel/framework/src/Illuminate/Encryption/EncryptionServiceProvider.php:42)
 ```
-
-https://laravista.altervista.org/L56/storage/logs/laravel.log
 
 ## PHP configuration (disable_functions = putenv)
 
@@ -71,7 +69,7 @@ Install vim into Dockerfile and disable **putenv** into `config/php.ini`
 disable_functions = putenv
 ```
 
-Try http://127.0.0.1/L56/public/ and you see the same production error:
+Try http://127.0.0.1/L56/ and you see the same production error:
 
 ```
 root@1bdf541e7f6a:/var/www/html/L56/storage/logs# cat laravel.log 
@@ -99,3 +97,48 @@ function env($key, $default = null)
 ```
 
 We have to use a new file `app/helpers.php` to create this custom function.
+
+## Apache .htaccess
+
+Enable **mod_rewrite** into Dockerfile:
+
+```
+RUN a2enmod rewrite
+```
+
+Add `/L56/.htaccess` file:
+
+```
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /L56
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+```
+
+and update `/L56/public/.htaccess` with:
+
+```
+RewriteBase /L56
+
+# ...
+
+RewriteRule ^(.*)$ public/index.php/$1 [L]
+```
+
+Use these routes:
+
+```
+Route::get('/L56', function () {
+    return view('welcome');
+});
+
+Route::get('/L56/test', function () {
+    return 'TEST';
+});
+```
+
+and try the URLs:
+
+ - http://127.0.0.1/L56/
+ - http://127.0.0.1/L56/test
