@@ -142,3 +142,77 @@ and try the URLs:
 
  - http://127.0.0.1/L56/
  - http://127.0.0.1/L56/test
+
+## MySQL
+
+Install MySQL driver into Docker:
+
+```
+RUN docker-php-ext-install pdo pdo_mysql
+```
+
+ - configure your local database with `DB_HOST=host.docker.internal` 
+ - create the database `DB_DATABASE=laravel` 
+ - comment into **php.ini** `;disable_functions = putenv` 
+ - execute `php artisan migrate`
+ 
+ after you can see the migration:
+
+```
+mysql> select * from migrations;
++----+------------------------------------------------+-------+
+| id | migration                                      | batch |
++----+------------------------------------------------+-------+
+|  1 | 2014_10_12_000000_create_users_table           |     1 |
+|  2 | 2014_10_12_100000_create_password_resets_table |     1 |
++----+------------------------------------------------+-------+
+```
+
+You have to create this table manually on AlterVista:
+
+```
+mysql> show create table migrations\G
+*************************** 1. row ***************************
+       Table: migrations
+Create Table: CREATE TABLE `migrations` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `batch` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+```
+
+replacing `ENGINE=InnoDB` with `ENGINE=MyISAM`
+
+Execute the inserts:
+
+```
+insert into migrations values(1, '2014_10_12_000000_create_users_table', 1);
+insert into migrations values(2, '2014_10_12_100000_create_password_resets_table', 1);
+```
+
+Create the other tables manually `php artisan migrate --pretend`
+
+```
+create table `users` (`id` int unsigned not null auto_increment primary key, `name` varchar(255) not null, `email` varchar(255) not null, `password` varchar(255) not null, `remember_token` varchar(100) null, `created_at` timestamp null, `updated_at` timestamp null) default character set utf8mb4 collate 'utf8mb4_unicode_ci'
+```
+
+```
+alter table `users` add unique `users_email_unique`(`email`)
+```
+
+We have this error: #1071 - Specified key was too long; max key length is 1000 bytes 
+
+```
+create table `password_resets` (`email` varchar(255) not null, `token` varchar(255) not null, `created_at` timestamp null) default character set utf8mb4 collate 'utf8mb4_unicode_ci'
+```
+
+```
+alter table `password_resets` add index `password_resets_email_index`(`email`)
+```
+
+We have this error: #1071 - Specified key was too long; max key length is 1000 bytes 
+
+ - copy `.env.prod` over `.env`
+ - deploy the ZIP archive on AlterVista
+ - try https://laravista.altervista.org/L56/migrations

@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,4 +19,8 @@ Route::get('/L56', function () {
 
 Route::get('/L56/test', function () {
     return 'TEST';
+});
+
+Route::get('/L56/migrations', function () {
+    return DB::table('migrations')->get();
 });
