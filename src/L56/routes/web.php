@@ -13,14 +13,21 @@ use Illuminate\Support\Facades\DB;
 |
 */
 
-Route::get('/L56', function () {
-    return view('welcome');
-});
+Route::group(['prefix' => '/L56'], function () {
 
-Route::get('/L56/test', function () {
-    return 'TEST';
-});
+    Route::get('/', function () {
+        return view('welcome');
+    });
+    
+    Route::get('/test', function () {
+        return 'TEST';
+    });
+    
+    Route::get('/migrations', function () {
+        return DB::table('migrations')->get();
+    });    
 
-Route::get('/L56/migrations', function () {
-    return DB::table('migrations')->get();
+    Auth::routes();
+    Route::get('/home', 'HomeController@index')->name('home');
+
 });
