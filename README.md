@@ -47,7 +47,7 @@ RUN apt-get update && apt-get install -y zip unzip
 build, run it and go into to create a new `L56` project:
 
 ```
-composer create-project --prefer-dist laravel/laravel L56 "5.6.*"```
+composer create-project --prefer-dist laravel/laravel L56 "5.6.*"
 ```
 
 check the correct Laravel page http://127.0.0.1/L56/
