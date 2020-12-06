@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 
 /*
@@ -23,6 +24,7 @@ Route::prefix('L8x')->group(function () {
     Route::post('login', [LoginController::class, 'loginSubmit']);
     Route::get('register', [LoginController::class, 'register'])->name('register');
     Route::post('register', [LoginController::class, 'registerSubmit']);
+    Route::get('md/{filename}', [HomeController::class, 'viewMarkdown']);
 });
 
 Route::prefix('L8x')->middleware(['auth'])->group(function () {
