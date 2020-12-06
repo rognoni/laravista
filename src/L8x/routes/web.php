@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LoginController;
 
 /*
@@ -34,10 +35,9 @@ Route::prefix('L8x')->middleware(['auth', 'role:user'])->group(function () {
     })->name('home');
 });
 
-Route::prefix('L8x')->middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('admin', function () {
-        return 'TODO admin';
-    })->name('admin');
+Route::prefix('L8x/admin')->middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('editor', [AdminController::class, 'editor'])->name('editor');
+    Route::post('editor', [AdminController::class, 'editorSubmit']);
 });
 
 Route::get('/L8x/artisan/migrate', function () {

@@ -24,11 +24,16 @@
                 <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
                   @auth
                   <li class="nav-item">
-                    <a class="nav-link active" href="{{ route('home') }}">Home</a>
+                    <a class="nav-link" href="{{ route('home') }}">Home</a>
                   </li>
                     @if(Auth::user()->role == 'admin')
-                    <li class="nav-item">
-                      <a class="nav-link active" href="{{ route('admin') }}">Admin</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Admin
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ route('editor') }}">Editor</a>
+                        </div>
                     </li>
                     @endif
                   @endauth
@@ -66,7 +71,7 @@
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#" onclick="event.preventDefault();
                                       document.getElementById('logout-form').submit();">Logout</a>
-                            <form id="logout-form" action="logout" method="POST" style="display: none;">
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                               @csrf
                             </form>
                         </div>
