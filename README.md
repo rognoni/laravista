@@ -14,7 +14,7 @@ The best way to deploy is uploading the `src/L8x` folder with `zip -r L8x.zip L8
 
 ## Configuration
 
-You have to configure your database `.env`
+You have to configure your `.env`
 
 ```
 DB_CONNECTION=mysql
@@ -23,6 +23,8 @@ DB_PORT=3306
 DB_DATABASE=my_laravista
 DB_USERNAME=laravista
 DB_PASSWORD=
+
+FORCE_HTTPS=true
 ```
 
 and two `.htaccess` files:

@@ -50,9 +50,11 @@ class LoginController extends Controller
 
         $form = $request->all();
         $form['password'] = Hash::make($request->input('password'));
+        $form['role'] = 'user';
 
-        User::create($form);
+        $user = User::create($form);
+        Auth::login($user);
 
-        return redirect()->route('login');
+        return redirect()->route('home');
     }
 }

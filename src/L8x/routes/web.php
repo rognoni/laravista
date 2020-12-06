@@ -26,9 +26,18 @@ Route::prefix('L8x')->group(function () {
 
 Route::prefix('L8x')->middleware(['auth'])->group(function () {
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+});
+
+Route::prefix('L8x')->middleware(['auth', 'role:user'])->group(function () {
     Route::get('home', function () {
         return view('home');
     })->name('home');
+});
+
+Route::prefix('L8x')->middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('admin', function () {
+        return 'TODO admin';
+    })->name('admin');
 });
 
 Route::get('/L8x/artisan/migrate', function () {

@@ -18,6 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('username')->unique();
             $table->string('password');
             $table->string('profile_link');
+            $table->string('role');
             $table->timestamps();
         });
     }

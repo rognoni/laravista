@@ -26,6 +26,11 @@
                   <li class="nav-item">
                     <a class="nav-link active" href="{{ route('home') }}">Home</a>
                   </li>
+                    @if(Auth::user()->role == 'admin')
+                    <li class="nav-item">
+                      <a class="nav-link active" href="{{ route('admin') }}">Admin</a>
+                    </li>
+                    @endif
                   @endauth
                   <!-- li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="#">Home</a>
@@ -49,8 +54,8 @@
                           <i>Guest</i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ route('login') }}"">Login</a>
-                            <a class="dropdown-item" href="{{ route('register') }}"">Register</a>
+                            <a class="dropdown-item" href="{{ route('login') }}">Login</a>
+                            <a class="dropdown-item" href="{{ route('register') }}">Register</a>
                         </div>
                     @else
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

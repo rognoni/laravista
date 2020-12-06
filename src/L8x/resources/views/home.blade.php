@@ -1,5 +1,5 @@
 @extends('layouts.app')
 
 @section('content')
-    <b>TODO</b> home (work in progress)
+    Welcome <code>{{ Auth::user()->username }}</code> your role is <b>{{ Auth::user()->role }}</b>
 @endsection
