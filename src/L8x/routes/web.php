@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\SearchdownController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +26,7 @@ Route::prefix('L8x')->group(function () {
     Route::get('register', [LoginController::class, 'register'])->name('register');
     Route::post('register', [LoginController::class, 'registerSubmit']);
     Route::get('md/{filename}', [HomeController::class, 'viewMarkdown']);
+    Route::get('searchdown', [SearchdownController::class, 'index'])->name('searchdown');
 });
 
 Route::prefix('L8x')->middleware(['auth'])->group(function () {
