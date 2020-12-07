@@ -12,6 +12,9 @@ docker stop running
 The best way to deploy is uploading the `src/L8x` folder with `zip -r L8x.zip L8x`
 - https://laravista.altervista.org/L8x/
 
+and to migrate the database use this link:
+- https://laravista.altervista.org/L8x/artisan/migrate
+
 ## Configuration
 
 You have to configure your `.env`

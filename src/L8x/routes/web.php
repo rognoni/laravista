@@ -27,6 +27,8 @@ Route::prefix('L8x')->group(function () {
     Route::post('register', [LoginController::class, 'registerSubmit']);
     Route::get('md/{filename}', [HomeController::class, 'viewMarkdown']);
     Route::get('searchdown', [SearchdownController::class, 'index'])->name('searchdown');
+    Route::get('searchdown/add', [SearchdownController::class, 'addLink'])->name('searchdownAddLink');
+    Route::post('searchdown/add', [SearchdownController::class, 'addLinkSubmit']);
 });
 
 Route::prefix('L8x')->middleware(['auth'])->group(function () {
