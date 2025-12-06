@@ -9,11 +9,24 @@ docker exec -it running bash
 docker stop running
 ```
 
-The best way to deploy is uploading the `src/L8x` folder with `zip -r L8x.zip L8x`
-- https://laravista.altervista.org/L8x/
+The best way to deploy is uploading the `src/L12x` folder with `zip -r L12x.zip L12x`
+- https://laravista.altervista.org/L12x/
 
-and to migrate the database use this link:
-- https://laravista.altervista.org/L8x/artisan/migrate
+and to migrate the database you have to run the SQL manually, because we have not the SSH terminal on AlterVista:
+
+```
+CREATE TABLE `l12x_sessions` (
+  `id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_id` bigint(20) unsigned DEFAULT NULL,
+  `ip_address` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `user_agent` text COLLATE utf8mb4_unicode_ci,
+  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `last_activity` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `l12x_sessions_user_id_index` (`user_id`),
+  KEY `l12x_sessions_last_activity_index` (`last_activity`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+```
 
 ## Configuration
 
@@ -42,44 +55,23 @@ and two `.htaccess` files:
     RewriteCond %{HTTPS} =off
     RewriteRule ^ https://laravista.altervista.org%{REQUEST_URI} [L,R=301]
 
-    RewriteBase /L8x
+    RewriteBase /L12x
     RewriteRule ^(.*)$ public/$1 [L]
-</IfModule>
-```
-
-`/L8x/public/.htaccess`
-
-```
-<IfModule mod_rewrite.c>
-    <IfModule mod_negotiation.c>
-        Options -MultiViews -Indexes
-    </IfModule>
-
-    RewriteEngine On
-    RewriteBase /L8x
-
-    # Handle Authorization Header
-    RewriteCond %{HTTP:Authorization} .
-    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
-
-    # Redirect Trailing Slashes If Not A Folder...
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_URI} (.+)/$
-    RewriteRule ^ %1 [L,R=301]
-
-    # Send Requests To Front Controller...
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^ index.php [L]
 </IfModule>
 ```
 
 ## Routes
 
-You have to use the prefix `/L8x`
+You have to use the prefix `/L12x`
 
 ```
-Route::get('/L8x', function () {
+Route::get('/L12x', function () {
     return view('welcome');
 });  
+```
+
+## Database (MySQL)
+
+```
+'prefix' => 'l12x_',
 ```
