@@ -43,9 +43,7 @@ DB_PASSWORD=
 FORCE_HTTPS=true
 ```
 
-and two `.htaccess` files:
-
-`/L8x/.htaccess`
+and the `.htaccess` file:
 
 ```
 <IfModule mod_rewrite.c>
