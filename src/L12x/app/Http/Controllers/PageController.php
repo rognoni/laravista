@@ -21,7 +21,7 @@ class PageController extends Controller
         }
 
         if (!empty($website)) {
-            $query->where('url', 'LIKE', '%' . $website);
+            $query->where('url', 'LIKE', $website . '%');
         }
 
         if (!empty($search)) {
