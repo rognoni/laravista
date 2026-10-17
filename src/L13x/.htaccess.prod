@@ -1,0 +1,12 @@
+AddHandler av-php83 .php
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+    RewriteCond %{HTTPS} =off
+    RewriteRule ^ https://laravista.altervista.org%{REQUEST_URI} [L,R=301]
+
+    RewriteBase /L13x
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>

@@ -1,0 +1,5 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /L13x
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
