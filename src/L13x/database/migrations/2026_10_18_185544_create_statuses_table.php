@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('statuses', function (Blueprint $table) {
             $table->id();
             $table->text('content');
+            $table->ipAddress('content_ip');
             $table->text('report')->nullable();
+            $table->ipAddress('report_ip')->nullable();
             $table->timestamps();
         });
     }

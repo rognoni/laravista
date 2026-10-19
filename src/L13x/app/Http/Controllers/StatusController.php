@@ -12,7 +12,7 @@ class StatusController extends Controller
      */
     public function index()
     {
-        $statuses = Status::latest()->paginate(20);
+        $statuses = Status::latest()->whereNull('report')->paginate(20);
 
         return response()->json([
             'success' => true,
@@ -27,8 +27,9 @@ class StatusController extends Controller
     {
         $validated = $request->validate([
             'content' => 'required|string',
-            'report'  => 'nullable|string',
         ]);
+
+        $validated['content_ip'] = $request->ip();
 
         $status = Status::create($validated);
 
@@ -55,9 +56,10 @@ class StatusController extends Controller
     public function update(Request $request, Status $status)
     {
         $validated = $request->validate([
-            'content' => 'required|string',
-            'report'  => 'nullable|string',
+            'report'  => 'required|string',
         ]);
+
+        $validated['report_ip'] = $request->ip();
 
         $status->update($validated);
 
@@ -72,11 +74,16 @@ class StatusController extends Controller
      */
     public function destroy(Status $status)
     {
-        $status->delete();
+        /* $status->delete();
 
         return response()->json([
             'success' => true,
             'message' => 'Record successfully deleted.'
-        ], 200); 
+        ], 200); */
+
+        return response()->json([
+            'success' => false,
+            'message' => 'You can not delete records.'
+        ], 403);
     }
 }
