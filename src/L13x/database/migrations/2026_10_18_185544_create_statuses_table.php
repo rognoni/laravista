@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('statuses', function (Blueprint $table) {
             $table->id();
+            $table->string('board', 20)->index();;
             $table->text('content');
             $table->ipAddress('content_ip');
             $table->text('report')->nullable();

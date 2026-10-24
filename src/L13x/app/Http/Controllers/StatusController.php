@@ -10,10 +10,16 @@ class StatusController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $statuses = Status::latest()->whereNull('report')->paginate(20);
+        $query = Status::latest()->whereNull('report');
 
+        if ($request->filled('board')) {
+            $query->where('board', $request->input('board'));
+        }
+
+        $statuses = $query->paginate(20);
+        
         return response()->json([
             'success' => true,
             'data' => $statuses
@@ -26,6 +32,7 @@ class StatusController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
+            'board' => 'required|string|max:20',
             'content' => 'required|string',
         ]);
 
