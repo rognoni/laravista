@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('statuses', function (Blueprint $table) {
             $table->id();
-            $table->string('board', 20)->index();;
+            $table->string('board', 20)->index();
             $table->text('content');
             $table->ipAddress('content_ip');
+            $table->boolean('moderated')->default(false);
             $table->text('report')->nullable();
             $table->ipAddress('report_ip')->nullable();
             $table->timestamps();

@@ -12,13 +12,13 @@ class StatusController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Status::latest()->whereNull('report');
+        $query = Status::latest()->where('moderated', true)->whereNull('report');
 
         if ($request->filled('board')) {
             $query->where('board', $request->input('board'));
         }
 
-        $statuses = $query->paginate(20);
+        $statuses = $query->paginate(10);
         
         return response()->json([
             'success' => true,
